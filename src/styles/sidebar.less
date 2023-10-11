@@ -1,0 +1,28 @@
+.ant-menu.ant-menu-inline-collapsed .ant-menu-item,.ant-menu.ant-menu-inline-collapsed .ant-menu-submenu .ant-menu-submenu-title {
+  left: 0;
+  padding: 0 calc(50% - 8px);
+  text-overflow: clip;
+}
+.ant-menu.ant-menu-inline-collapsed .ant-menu-item .svg-icon+span,.ant-menu.ant-menu-inline-collapsed .ant-menu-submenu .ant-menu-submenu-title .svg-icon+span{
+  display: inline-block;
+  opacity: 0;
+}
+.ant-menu.ant-menu-inline-collapsed .ant-menu-submenu .ant-menu-submenu-title .ant-menu-submenu-arrow {
+  opacity: 0;
+}
+
+.ant-layout-sider{
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  // height: 100vh;
+  padding: 0;
+  overflow: auto;
+  transition: all .28s
+}
+.ant-layout-sider.collapsed{
+  width: 54px!important;
+  min-width: 54px!important;
+  max-width: 54px!important;
+}

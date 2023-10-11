@@ -1,0 +1,377 @@
+<!--
+    / * @FileDescription: 左侧文件夹部分
+* @Author: ZMW
+* @Date: 2023-03-28
+* @LastEditors: 
+* @LastEditTime:  -->
+<template>
+    <div class="content">
+        <slot name="tabbar"> </slot>
+        <a-row>
+            <a-col class="gutter-row" :span="folderwightSpan">
+                <div class="gutter-box">
+                    <div class="content-left">
+                        <div class="content-left-search">
+                            <a-input @change="changeKey" v-model:value="searchkey" placeholder="搜索">
+                                <template #prefix>
+                                    <!-- <user-outlined type="user" /> -->
+                                    <!-- <SearchOutlined /> -->
+                                    <div class="content-left-search-img">
+                                        <img @click="addColumn" src="@/modules/assets/内容管理-列表_slices/icon／搜索@2x.png"
+                                            alt="" />
+
+                                    </div>
+
+                                </template>
+                            </a-input>
+                        </div>
+                        <div class="content-left-tree">
+                            <div class="content-left-tree-title">
+                                <div @click="allfolder" style="font-size: 14px" :class="isAllCheck ? 'red' : ''">{{
+                                    folderName
+                                }}</div>
+                                <!-- <PlusCircleOutlined @click="addFolder" /> -->
+                                <img @click="addColumn" src="@/modules/assets/内容管理-列表_slices/icon／新增栏目@2x.png" alt="" />
+                                <!-- <user-outlined type="user" @click="dianji" /> -->
+                            </div>
+                            <div class="content-left-tree-list">
+                                <testChangeLeftFolderItem :folderList="folderList" :menuList="menuList"
+                                    @getDropdown="getDropdown" :showLeftFolder="showLeftFolder"
+                                    @getFolderName="getFolderName"></testChangeLeftFolderItem>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            </a-col>
+            <a-col class="gutter-row" :span="ontentWightSpan">
+                <div class="gutter-box">
+                    <div class="content-right">
+                        <!-- <slot name="tabbar"> </slot> -->
+
+                        <slot name="content"> </slot>
+                    </div>
+                </div>
+            </a-col>
+        </a-row>
+    </div>
+</template>
+<script lang="ts">
+import testChangeLeftFolderItem from '@/modules/components/testChangeLeftFolderItem.vue';
+import { Options, Vue } from 'vue-class-component';
+import { UserOutlined, PlusCircleOutlined, SearchOutlined, FolderOutlined, EditOutlined, CloseOutlined, PlusOutlined } from '@ant-design/icons-vue';
+import ChangeDropdown from './changeDropdown.vue';
+import zmwModal from '../components/zmwModal.vue';
+// import myTree from './myTree.vue'
+import { ref, reactive } from 'vue';
+import { Prop } from 'vue-property-decorator';
+import store from '@/modules/conTent/store';
+
+import { emit } from 'process';
+interface menuItemType {
+    title: string;
+    index: number;
+    disabled: boolean;
+    iconName?: any;
+}
+@Options({
+    components: {
+        testChangeLeftFolderItem,
+        UserOutlined,
+        SearchOutlined,
+        PlusCircleOutlined,
+        FolderOutlined,
+        EditOutlined,
+        CloseOutlined,
+        PlusOutlined,
+        ChangeDropdown,
+        zmwModal,
+    },
+})
+export default class contentManage extends Vue {
+    @Prop({ require: true }) public folderList!: any[];
+    @Prop({ require: true }) public closeMyModal!: boolean;
+    @Prop({ require: true }) public menuListTiTle!: string[];
+    @Prop({ require: true }) public folderName!: string;
+    
+    @Prop({ require: true }) public ontentWightSpan!: number;
+    @Prop({ require: true }) public folderwightSpan!: number;
+    created(): void {
+        console.log('文件夹', this.menuListTiTle);
+        this.initMenuList();
+    }
+    public states: any = store.state;
+
+    public initMenuList() {
+        const iconList = [EditOutlined, CloseOutlined, PlusOutlined]
+        this.menuListTiTle.forEach((item, index) => {
+            this.menuList.push({ title: item, index: index, disabled: false, iconName: iconList[index] });
+        });
+        this.menuListTiTle.forEach((item, index) => {
+            if (index < this.menuListTiTle.length - 1) {
+                console.log('index', index, this.menuListTiTle.length);
+                this.menuSonList.push({ title: item, index: index, disabled: false, iconName: iconList[index] });
+            } else {
+                this.menuSonList.push({ title: item, index: index, disabled: true, iconName: iconList[index] });
+            }
+        });
+        // console.log('文件夹', this.menuList,this.menuSonList);
+    }
+    public showchildren = false;
+    public showLeftFolder = ref<boolean>(true);
+    public menuList: menuItemType[] = [
+        // { title: '修改栏目', index: 0, disabled: false },
+        // { title: '删除栏目', index: 1, disabled: false },
+        // { title: '新增子栏目', index: 2, disabled: false }
+    ];
+    public menuSonList: menuItemType[] = [
+        // { title: '修改栏目', index: 0, disabled: false },
+        // { title: '删除栏目', index: 1, disabled: false },
+        // { title: '新增子栏目', index: 2, disabled: true }
+    ];
+
+    public FolderId = ref<number>();
+    public showchildrenFn(item: any) {
+        console.log('i', item);
+        this.FolderId = item.id;
+        console.log('FolderId', typeof this.FolderId);
+    }
+    public addFolder = () => {
+        console.log('点击了点击了');
+    };
+    public fatherColumnList: any[] = [];
+    public addColumn() {
+        this.$emit('addColumn');
+    }
+    public isAllCheck: boolean = true
+    public allfolder() {
+        this.initremark()
+        this.isAllCheck = true
+        this.$emit('allfolder');
+    }
+    public searchkey = ref<string>('');
+    public changeKey() {
+        this.$emit('getsearchkey', this.searchkey);
+    }
+    public test = {
+        item: 'item',
+        b: '',
+    };
+    public getDropdown(value: any, row: any) {
+        console.log('子组件编辑', value, row);
+
+        this.$emit('getDropdown', value, row);
+    }
+    public getFolderName(item: any) {
+        console.log('biubiubiu~~~', item);
+        this.$emit('getFolderName', this.states.getFolderLeft.folderLeftInfo);
+    }
+    // 三层
+    public sanGrandpa(item: any) {
+        console.log('点了爷爷', item);
+        item.showchilderns = !item.showchilderns;
+        // this.folderList.forEach(item => {
+        //   item.remark1 = 0
+        //   if (item.children) {
+        //     item.children.forEach(i => {
+        //       i.remark1 = 0
+        //     })
+        //   }
+        // })
+        this.initremark();
+        item.remark1 = 1;
+        this.$emit('getFolderName', item);
+    }
+    public sanFather(i: any) {
+        console.log('点了爸爸', i);
+        i.showchilderns = !i.showchilderns;
+
+        this.initremark();
+        i.remark1 = 1;
+        this.$emit('getFolderName', i);
+    }
+    public sanSon(l: any) {
+        console.log('点了儿子', l);
+
+        this.initremark();
+        l.remark1 = 1;
+        this.$emit('getFolderName', l);
+    }
+    public initremark() {
+        this.isAllCheck = false
+        this.folderList.forEach((item) => {
+            item.remark1 = 0;
+            if (item.children) {
+                item.children.forEach((i: any) => {
+                    i.remark1 = 0;
+                    if (i.children) {
+                        i.children.forEach((l: any) => {
+                            l.remark1 = 0;
+                        });
+                    }
+                });
+            }
+        });
+        console.log('初始化标志位', this.folderList);
+    }
+}
+</script>
+<style lang="less">
+.red {
+    color: #e8380d;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.content {
+    // display: flex;
+
+    .content-left {
+        // flex: 1;
+        background-color: #ffffff;
+        
+        // overflow-x: scroll;
+        /*水平滚动条*/
+        // overflow-y: hidden;
+        /*垂直方向不需要滚动*/
+        // white-space: nowrap;
+
+        .content-left-search {
+            padding: 24px 9px 10px 9px;
+
+
+            /*在一行内显示*/
+            .ant-input-affix-wrapper {
+                border-radius: 16px;
+                background-color: #efefef;
+                border: 0px solid;
+
+                .content-left-search-img {
+                    display: flex;
+                    width: 12px;
+                    height: 12px;
+
+                    img {
+                        flex: 1;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+
+                .ant-input {
+                    background-color: transparent;
+
+
+
+                }
+            }
+
+            .ant-input-affix-wrapper-focused {
+                border: 0px solid transparent !important;
+                box-shadow: 0px 0px 0px 0px;
+            }
+
+            .ant-input-affix-wrapper:hover {
+                border: 0px solid transparent !important;
+            }
+        }
+
+        .content-left-tree {
+            .content-left-tree-title {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 14px;
+                margin: 0px 16px;
+                height: 40px;
+                cursor: pointer;
+
+                img {
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+
+            .content-left-tree-list {
+                max-height:540px;
+                // height: 500px;
+                overflow-y: auto;
+                padding-bottom: 10px;
+
+                // margin: 0px 14px 0px 30px;
+                // background-color: #FAEEEB;
+                .content-left-tree-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    height: 40px;
+                    // padding-right: 6px;
+                    padding: 0px 12px 0px 15px;
+                }
+
+                .content-left-tree-item:hover {
+                    background-color: #faeeeb;
+                }
+
+                .sonTree {
+                    margin-left: 30px;
+                    height: 40px;
+                    // color: #000000;
+                    line-height: 40px;
+                }
+
+                .active {
+                    color: red;
+                }
+            }
+        }
+    }
+
+    .content-right {
+        // flex: 7;
+        background-color: #f8f8f8;
+        padding: 0px 16px;
+    }
+}
+
+.san-grandpa {
+    padding: 10px 16px 10px 26px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    // background-color: aqua;
+}
+
+.san-grandpa:hover {
+    background-color: #fff2ee;
+    color: #e8380d;
+}
+
+.san-father {
+    padding: 10px 16px 10px 36px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    // background-color: red;
+}
+
+.san-father:hover {
+    background-color: #fff2ee;
+    color: #e8380d;
+}
+
+.san-son {
+    padding: 10px 16px 10px 46px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    // background-color: yellow;
+}
+
+.san-son:hover {
+    background-color: #fff2ee;
+    color: #e8380d;
+}
+</style>

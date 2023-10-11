@@ -1,0 +1,126 @@
+@import './sidebar.less';
+/* Global less */
+:root {
+  --custom-primary-color: #2F9FE8;
+  --custom-auxiliary-color: #2C2C2C;
+  --custom-setoff-color: #5C5C5C;
+  --custom-fused-color: #A6DCFF;
+  --custom-emphasize-color: #D70B24;
+  --custom-primary-text-color: #FFFFFF;
+  --custom-setoff-text-color: #5C5C5C;
+}
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+html {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+a,
+a:focus,
+a:hover {
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+}
+a{
+  transition: none;
+}
+::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+}
+::-webkit-scrollbar-thumb{
+  background-color: rgba(144,147,153,.3);
+  border-radius:4px;
+}
+.w90{
+  width: 90px;
+}
+.ml10{
+  margin-left: 10px;
+}
+.mt24{
+  margin-top: 24px;
+}
+.mb24{
+  margin-bottom: 24px;
+}
+.ant-table{
+  color:#606266!important;
+}
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td,
+.ant-table tfoot > tr > th,
+.ant-table tfoot > tr > td{
+  padding: 10px 10px!important;
+}
+.ant-table-thead > tr > th{
+  color:#909399!important;
+  font-weight: bold!important;
+}
+.ant-table-tbody{
+  .ant-table-measure-row{
+    td{
+      padding: 0!important;
+    }
+  }
+}
+//网页搭建样式
+.full-modal {
+  .ant-modal {
+    max-width: 60%;
+    top: 0;
+    padding-bottom: 0;
+    margin: 0;
+    transform-origin: top right !important;
+    left: 40%;
+  }
+  .ant-modal-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh);
+  }
+  .ant-modal-body {
+    flex: 1;
+  }
+}
+.element_form{
+  .ant-input-number{
+    width: 110px !important;
+    margin-right: 15px !important;
+  }
+}
+
+ 
+.gray-x-input::v-deep .ant-input-number-input::first-letter {
+  color: gray !important; /* 首字母的颜色 */
+}
+
+ .tox-promotion{
+  display: none !important;
+}
+ .webpageConstructionDrawer .ant-drawer-header{
+	padding: 0;
+}
+.webpageConstructionEditDrawer .ant-drawer-header{
+  padding: 16px 24px;
+}
+.padding_10{
+  padding: 10px;
+}
+

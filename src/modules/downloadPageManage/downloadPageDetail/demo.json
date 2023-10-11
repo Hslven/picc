@@ -1,0 +1,39 @@
+{
+    "msg": [
+        {
+            "": "成功"
+        }
+    ],
+    "recordsFiltered": 0,
+    "flag": "success",
+    "recordsTotal": 0,
+    "data": [],
+    "defmap": {
+        "longLink": "",
+        "channelValidStartDate": "2023-06-25 00:00:00",
+        "displayFormat": "1",
+        "targetChannel": "1",
+        "channelValidEndDate": "2023-06-28 23:59:59",
+        "shortLink": "",
+        "serialVersionUID": 1,
+        "promotionChannel": "1",
+        "taskState": "1",
+        "appDesc": "yLko8Ufi",
+        "downloadPagePromotionId": "Q2erFua3",
+        "promotionPageComponent": [
+            {
+                "downloadPagePromotionId": "",
+                "promotionPageName": "宣传页",
+                "photoType": "",
+                "photoPath": "login_user_20230612180124204_c.jpg",
+                "photo": "",
+                "linkPath": "/loginModule/pages/propagate/propagate",
+                "nextLinkPath": "",
+                "hotspotXAxis": "",
+                "hotspotYAxis": "",
+                "hotspotExtent": "",
+                "hotspotWidth": ""
+            }
+        ]
+    }
+}
