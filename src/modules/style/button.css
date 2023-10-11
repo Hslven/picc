@@ -1,0 +1,59 @@
+/**
+@ZMW 引流触面按钮css
+*/
+/* 实心彩色 */
+.solidColor {
+  border: 0px solid #000000;
+  background-color: #E8380D;
+  color: #ffffff;
+  width: 84px;
+  border-radius: 4px;
+  height: 32px;
+}
+
+.solidColor:hover {
+  background-color: #EC5F3D;
+}
+
+.solidColor:active {
+  background-color: #D0320B;
+}
+
+/* 空心彩色 */
+.ghostColor {
+  width: 84px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid #E8380D;
+  background-color: #ffffff;
+  color: #E8380D;
+
+}
+
+.ghostColor:hover {
+  background-color: #EC5F3D;
+  color: #ffffff;
+}
+
+.ghostColor:active {
+  background-color: #D0320B;
+  color: #ffffff;
+}
+
+/* 空心灰色 */
+.ghostGrey {
+  border: 1px solid #BFBFBF;
+  background-color: #FFFFFF;
+  color: #333333;
+  width: 84px;
+  border-radius: 4px;
+  height: 32px;
+}
+
+.ghostGrey:hover {
+  background-color: #F9F9F9;
+}
+
+.ghostGrey:active {
+  background-color: #DFDFDF;
+}

@@ -1,0 +1,3 @@
+window.uniapisConfig = {
+    env: 'prd',
+};
