@@ -7,11 +7,18 @@ export const drawerPopup = ref<boolean>(false);
 
 /* Event */
 export const showDrawerPopup = () => {
-  // drawerPopup变为true
   drawerPopup.value = true
-  console.log(drawerPopup.value)
+  console.log(123)
+}
+
+export const disabledDrawer = () =>{
+  drawerPopup.value = false
 }
 
 export const afterOpenChange = (bool: boolean) => {
   console.log('open', bool);
+};
+
+export const carouselOnChange = (current: number) => {
+  console.log(current);
 };

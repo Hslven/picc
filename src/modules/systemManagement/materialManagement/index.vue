@@ -481,18 +481,52 @@
         </a-drawer>
 
         <!-- showDrawerPopup -->
-        <a-drawer v-model:visible="drawerPopup" class="custom-class" root-class-name="root-class-name"
-        :get-container="false" :root-style="{ color: 'blue' }" style="color: red" title="Basic Drawer" placement="right"
-            @after-open-change="afterOpenChange">
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+        <a-drawer :visible="drawerPopup" class="custom-class" root-class-name="root-class-name" :get-container="false"
+            width="88vw" title="" placement="right" @after-open-change="afterOpenChange" @close="disabledDrawer">
+            <a-row>
+                <a-col :span="18">
+                    <a-carousel :after-change="carouselOnChange">
+                        <div>
+                            <h3>1</h3>
+                        </div>
+                        <div>
+                            <h3>2</h3>
+                        </div>
+                        <div>
+                            <h3>3</h3>
+                        </div>
+                        <div>
+                            <h3>4</h3>
+                        </div>
+                    </a-carousel>
+                </a-col>
+                <a-col :span="6">
+                    <a-row :gutter="16">
+                        <a-col :span="24">
+                            <a-card style="width: 100%">
+                                <p>Card content</p>
+                                <p>Card content</p>
+                                <p>Card content</p>
+                            </a-card>
+                        </a-col>
+                        <a-col :span="24">
+                            <a-card style="width: 100%">
+                                <p>Card content</p>
+                                <p>Card content</p>
+                                <p>Card content</p>
+                            </a-card>
+                        </a-col>
+                    </a-row>
+
+                </a-col>
+            </a-row>
         </a-drawer>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { AxiosRequestHeaders } from 'axios';
+import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue';
 import { systemManagementApi, contentApi } from '@/libs/api/index';
 import { createVNode, reactive, ref, watch, onMounted, defineComponent } from 'vue';
 import { message, Modal, SelectProps, FormInstance } from 'ant-design-vue';
@@ -512,7 +546,7 @@ import paginations from '@/modules/components/pagination.vue'
 import { imgUrl } from '@/libs/getImgUrl'
 import ModalComponent from './components/ModalComponent.vue';
 // 抽离
-import { showDrawerPopup, drawerPopup, afterOpenChange } from './index'
+import { showDrawerPopup, drawerPopup, afterOpenChange, disabledDrawer, carouselOnChange } from './index'
 
 
 const router = useRouter()
@@ -2199,6 +2233,14 @@ span.ant-input-affix-wrapper {
 .cancleBtn {
     margin-left: 5px;
     border: 1px solid #BFBFBF;
+}
+
+/deep/ .custom-class .ant-drawer-wrapper-body {
+    background-color: #f6f6f6 !important;
+}
+
+/deep/ .custom-class .ant-drawer-header {
+    background-color: #f6f6f6 !important;
 }
 
 // .image-container::after {
