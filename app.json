@@ -1,0 +1,46 @@
+{
+    "env": "dev",
+    "language": "zh-cn",
+    "isEncrypt": "Y",
+    "encryptKey": "yf7g54f6789n",
+    "logLevel": 1,
+    "url": {
+        "dev": "",
+        "uat": "",
+        "sit": "",
+        "prd": ""
+    },
+    "router": {
+        "sec": {
+            "dev": "/security-mmc",
+            "uat": "/security-mmc",
+            "prd": "/security-mmc"
+        },
+        "lc": {
+            "dev": "/dop/iug/zuul",
+            "prd": ""
+        },
+        "gc": {
+            "dev": "/dop/iug/zuul",
+            "prd": ""
+        },
+        "yjf": {
+            "dev": "/dop/iug/zuul",
+            "prd": ""
+        },
+        "fjd": {
+            "dev": "/dop/iug/zuul",
+            "prd": ""
+        },
+        "zj": {
+            "dev": "/dop/iug/zuul",
+            "prd": ""
+        }
+    },
+    "theme": {
+        "蓝色": ["#2F9FE8", "#2C2C2C", "#5C5C5C", "#A6DCFF", "#D70B24", "#FFFFFF", "#5C5C5C"],
+        "金色": ["#B48732", "#2C2C2C", "#5C5C5C", "#EFE0C9", "#D70B24", "#FFFFFF", "#5C5C5C"],
+        "红色": ["#D70B24", "#2C2C2C", "#5C5C5C", "#F3B7BE", "#B48732", "#FFFFFF", "#5C5C5C"],
+        "绿色": ["#009B63", "#2C2C2C", "#5C5C5C", "#EAFEF2", "#B48732", "#FFFFFF", "#5C5C5C"]
+    }
+}
