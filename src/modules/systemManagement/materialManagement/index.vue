@@ -801,34 +801,32 @@
           :span="18"
           style="padding-right:24px"
         >
-          <div style="display:flex;justify-content:center">
+          <div class="picBox">
+            <span class="prevArrow">&lt;</span>
+            <!-- <left-outlined /> -->
             <img
               src="../../../assets/2.jpg"
               alt=""
-              style="width:80%"
+              class="picDetail"
+              ref="picDetail"
             >
-          </div>
+            <span class="nextArrow">&gt;</span>
+            <!-- <right-outlined /> -->
 
-          <!-- <a-carousel :after-change="carouselOnChange">
-            <template #prevArrow>
-              <div
-                class="custom-slick-arrow"
-                style="left: 10px; z-index: 1"
-              >
-                <left-circle-outlined />
+          </div>
+          <div class="picControl">
+            <button @click="bigit"><span>+</span>放大</button>
+            <button @click="littleit"><span>-</span>缩小</button>
+          </div>
+          <div class="scalePic">
+            <div class="sca-prevArrow">&lt;</div>
+            <div class="sca-content">
+              <div :class="['content-pic', index === scalePicIndex?'sca-active':'']" v-for="(item,index) in 15" :key="index" >
+                <img src="../../../assets/2.jpg"/>
               </div>
-            </template>
-            <template #nextArrow>
-              <div
-                class="custom-slick-arrow"
-                style="right: 10px"
-              >
-                <right-circle-outlined />
-              </div>
-            </template>
-            <div class="carouselBox" v-for="(item ,index) in 6" :key="index">
             </div>
-          </a-carousel> -->
+            <div class="sca-nextArrow">&gt;</div>
+          </div>
         </a-col>
         <a-col :span="6">
           <a-row :gutter="16">
@@ -860,11 +858,11 @@
               >
                 <p>授权证书</p>
                 <p style="margin:20px 0">
-                    <p style="margin-bottom:5px">素材标签</p>
-                    <p style="font-size:12px;color:#f00"><span>#保险</span>&emsp;<span>#金融</span></p>
+                <p style="margin-bottom:5px">素材标签</p>
+                <p style="font-size:12px;color:#f00"><span>#保险</span>&emsp;<span>#金融</span></p>
                 </p>
                 <p style="flex: 1;">授权到期日：<span style="color:#999;font-size:12px">2023</span></p>
-                <div class="addSimilarMaterial">
+                <div class="addSimilarMaterial" @click="showAddSimMatPopup">
                   增加同类素材
                 </div>
               </a-card>
@@ -873,6 +871,88 @@
 
         </a-col>
       </a-row>
+    </a-drawer>
+    <!-- showAddSimMatPopup -->
+    <a-drawer
+      :visible="addSimMatPopup"
+      root-class-name="root-class-name"
+      :get-container="false"
+      width="26vw"
+      title=""
+      placement="right"
+      @after-open-change="afterOpenChange"
+      @close="disabledAddSimMatPopup"
+    >
+      <div style="display: flex;align-items:center;padding-bottom:20px;border-bottom:1px solid #eee;margin-bottom:20px">
+        <div style="width:5px; height:20px;background-color:#1343f5;margin-right:10px;"></div>
+        <div style="font-weight:bold">上传</div>
+      </div>
+      <a-form :model="addFormState" ref="addForm" :label-col="{ span: 7 }" :wrapper-col="{ span: 16 }">
+        <!-- <a-form-item label="素材名称">
+            <a-input v-model:value="addFormState.materialName" placeholder="请输入素材名称" />
+        </a-form-item> -->
+        <a-form-item label="上传素材" required>
+            <a-upload
+                v-model:file-list="fileList"
+                name="file"
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                :headers="headers"
+                @change="handleChange"
+              >
+                <a-button>
+                  <upload-outlined></upload-outlined>
+                  上传素材：
+                </a-button>
+              </a-upload>
+        </a-form-item>
+        <a-form-item label="授权证书">
+            <a-upload
+                v-model:file-list="fileList"
+                name="file"
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                :headers="headers"
+                @change="handleChange"
+              >
+                <a-button>
+                  <upload-outlined></upload-outlined>
+                  上传证书：
+                </a-button>
+              </a-upload>
+        </a-form-item>
+         <a-form-item label="素材名称" required>
+            <a-input  placeholder="请输入素材的名称" />
+        </a-form-item>
+        <a-form-item label="素材来源">
+            <a-input v-model:value="addFormState.materialSource" placeholder="请输入素材的来源，如：摄图网" />
+        </a-form-item>
+        <a-form-item label="素材标签" name="labelIds">
+            <a-cascader 
+                mode="tags" 
+                multiple
+                v-model:value="addFormState.labelIds" 
+                placeholder="请选择素材标签" 
+                :show-search="{ filter }"
+                :field-names="{label:'labelName',value:'labelId',children:'children'}" 
+                :options="materialIdList"
+                @change="changeRegionType($event)"
+            />
+        </a-form-item>
+        <a-form-item label="素材到期日：" name="materialMaturityDate" :rules="[{ required: true, message: '素材到期日不能为空', trigger: 'blur' }]">
+            <a-date-picker 
+                v-model:value="addFormState.materialMaturityDate" 
+                :disabled-date="disabledDate" 
+                show-time format="YYYY-MM-DD HH:mm:ss" 
+                value-format="YYYY-MM-DD HH:mm:ss" />
+        </a-form-item>
+         <!-- <a-form-item style="width:100%;">
+          
+        </a-form-item> -->
+      </a-form>
+      <div class="controlBtn" style="width:90%;margin:0 auto;text-align:right;margin-top:30px">
+        <a-button style="width:100px" @click="cleanForm">取消</a-button>
+
+        <a-button type="danger" html-type="submit" style="width:100px;margin-left: 50px;">提交</a-button>
+      </div>
     </a-drawer>
   </div>
 </template>
@@ -898,8 +978,23 @@ import uploadMaterial from '../uploadMaterial/index.vue';
 import paginations from '@/modules/components/pagination.vue';
 import { imgUrl } from '@/libs/getImgUrl';
 import ModalComponent from './components/ModalComponent.vue';
+import { UploadOutlined } from '@ant-design/icons-vue';
 // 抽离
-import { showDrawerPopup, drawerPopup, afterOpenChange, disabledDrawer, carouselOnChange } from './index';
+import { 
+  showDrawerPopup, 
+  drawerPopup, 
+  afterOpenChange, 
+  disabledDrawer, 
+  carouselOnChange,
+  scalePicIndex, 
+  addSimMatPopup,
+  showAddSimMatPopup,
+  disabledAddSimMatPopup,
+  handleChange,
+  fileList,
+  cleanForm,
+  formRef,
+  } from './index';
 
 const router = useRouter();
 const darwerWidth = window.innerWidth - 255;
@@ -955,7 +1050,8 @@ const INITIAL_CHECK_FEATURE_LIST = [
 ];
 
 const checkFeatureList = ref<any>([...INITIAL_CHECK_FEATURE_LIST]);
-
+// 获取大图dom元素
+const picDetail = ref(null)
 //筛选抽屉
 const search = () => {
     showScreeningCondition.value = true;
@@ -1072,6 +1168,7 @@ onMounted(() => {
     getList();
     //types()
     secsitiveTypeList();
+    
 });
 
 // 名称搜索
@@ -2016,6 +2113,22 @@ const preview = (contentId: any) => {
     router.push({ path: '/content/contentDetail', query: { contentId: contentId } });
 };
 
+// 放大缩小图片函数
+const bigit = () =>{
+   // 获取大图的dom元素
+   const pic = document.querySelector('.picDetail')
+   pic.style.height=pic.height*1.1+'px';
+		pic.style.width=pic.width*1.1+'px';
+}
+const littleit = () =>{
+   // 获取大图的dom元素
+   const pic = document.querySelector('.picDetail')
+   pic.style.height=pic.height/1.1+'px';
+		pic.style.width=pic.width/1.1+'px';
+}
+
+
+
 // =============模块结束==================
 
 // function $nextTick(arg0: () => void) {
@@ -2528,7 +2641,7 @@ span.ant-input-affix-wrapper {
     background-color: #f6f6f6 !important;
 }
 
-// 走马灯
+// 大图
 
 .carouselBox {
     width: 80% !important;
@@ -2562,9 +2675,102 @@ span.ant-input-affix-wrapper {
 .ant-carousel :deep(.slick-slide h3) {
     color: #fff;
 }
+
+// 大图样式
+.picBox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 1%;
+    position: relative;
+    overflow: hidden;
+    z-index: 11111;
+    height: 535px;
+    img {
+        width: 86%;
+        margin:5px 0;
+    }
+    .prevArrow,
+    .nextArrow {
+        font-size:30px;
+        cursor:pointer;
+        transition: all .2s ease-in;
+        &:hover{
+          color: #ccc;
+        }
+    }
+    .nextArrow {
+      margin-right: 5px;
+    }
+     .prevArrow {
+      margin-left: 5px;
+    }
+}
+// 缩放样式
+.picControl{
+  font-size:12px;
+  display:flex;
+  justify-content: center;
+  button{
+    width:60px;
+    height:25px;
+    text-align: center;
+    cursor:pointer;
+     &:nth-child(1){
+      margin-right: 10px;
+    }
+  }
+ 
+}
+// 缩略图样式
+.scalePic{
+  width: 100%;
+  background-color: #fff;
+  border-radius: 1%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .sca-content{
+    max-width: 80vw;
+    overflow: hidden;
+    display: flex;
+    .content-pic{
+      border: 1px solid #ccc;
+      margin: 0 5px;
+      &:nth-child(1){
+        margin-left: 0;
+      }
+      img{
+            width: 60px;
+            height: 60px;
+            padding: 10px 0;
+          }
+    }
+    .sca-active{
+      border:2px solid rgb(18, 33, 239);
+    }
+  }
+  
+  .sca-prevArrow,.sca-nextArrow{
+    width: 20px;
+    padding: 20px 0;
+    font-size: 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: all .2s ease-in;
+    &:hover{
+      color: #ccc;
+    }
+  }
+}
+// 右边图片描述样式
 .pic-info,
 .pic-accredit {
-    border-radius: 5%;
+    border-radius: 3%;
 }
 .pic-info {
     // height: 120px;
@@ -2573,12 +2779,11 @@ span.ant-input-affix-wrapper {
     justify-content: space-around;
 }
 .pic-accredit {
-    height: 500px;
-    /deep/.ant-card-body{
+    height: 525px;
+    /deep/.ant-card-body {
         height: 100%;
         display: flex;
         flex-direction: column;
-       
     }
     .addSimilarMaterial {
         width: 100%;
