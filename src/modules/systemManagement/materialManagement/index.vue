@@ -2688,7 +2688,6 @@ span.ant-input-affix-wrapper {
     border-radius: 1%;
     position: relative;
     overflow: hidden;
-    z-index: 11111;
     height: 535px;
     img {
         width: 86%;
@@ -2699,6 +2698,7 @@ span.ant-input-affix-wrapper {
         font-size:30px;
         cursor:pointer;
         transition: all .2s ease-in;
+        z-index: 1111;
         &:hover{
           color: #ccc;
         }
